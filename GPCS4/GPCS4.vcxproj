@@ -26,6 +26,7 @@
     <ClInclude Include="Common\GPCS4Log.h" />
     <ClInclude Include="Common\GPCS4Types.h" />
     <ClInclude Include="Common\IntelliSenseClang.h" />
+    <ClInclude Include="Emulator\BreakpointManager.h" />
     <ClInclude Include="Emulator\ModuleManger.h" />
     <ClInclude Include="Emulator\PolicyManager.h" />
     <ClInclude Include="Emulator\SymbolManager.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="Algorithm\sha1.c" />
     <ClCompile Include="Algorithm\Sha1Hash.cpp" />
     <ClCompile Include="Common\GPCS4Log.cpp" />
+    <ClCompile Include="Emulator\BreakpointManager.cpp" />
     <ClCompile Include="Emulator\Emulator.cpp" />
     <ClCompile Include="Emulator\GameThread.cpp" />
     <ClCompile Include="Emulator\Linker.cpp" />

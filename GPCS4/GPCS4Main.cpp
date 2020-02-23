@@ -1,6 +1,7 @@
 #include "Emulator/Emulator.h"
 #include "Emulator/SceModuleSystem.h"
 #include "Emulator/TLSHandler.h"
+#include "Emulator/BreakpointManager.h"
 #include "Loader/ModuleLoader.h"
 
 #include <cxxopts/cxxopts.hpp>
@@ -33,6 +34,30 @@ cxxopts::ParseResult processCommandLine(int argc, char* argv[])
 	}
 
 	return optResult;
+}
+
+bool addBreakpoints()
+{
+	bool ret      = false;
+	auto debugger = BreakpointManager::get();
+	do
+	{
+		if(!debugger->addBreakpoint("eboot.bin", 0x143EC0))
+		{
+			ret = false;
+			break;
+		}
+
+		if(!debugger->addBreakpoint("eboot.bin", 0x145B40))
+		{
+			ret =false;
+			break;
+		}
+
+		ret = true;
+	} while (false);
+
+	return ret;
 }
 
 
@@ -76,6 +101,8 @@ int main(int argc, char *argv[])
 		{
 			break;
 		}
+
+		addBreakpoints();
 
 		if(!pEmulator->Run(*ebootModule))
 		{

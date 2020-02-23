@@ -5,10 +5,10 @@
 
 LOG_CHANNEL(Emulator);
 
-CSceModuleSystem::CSceModuleSystem():m_policyManager{m_moduleManager} {}
+CSceModuleSystem::CSceModuleSystem():
+	m_policyManager{ m_moduleManager } { }
 
-CSceModuleSystem::~CSceModuleSystem() {}
-
+CSceModuleSystem::~CSceModuleSystem() = default;
 
 bool CSceModuleSystem::isNativeModuleLoadable(std::string const &modName) const
 {
@@ -183,9 +183,9 @@ const MODULE_INFO* CSceModuleSystem::getEbootModuleInfo() const
 	return retVal;
 }
 
-const void* CSceModuleSystem::getSymbolAddress(std::string const& modName,
-											   std::string const& libName,
-										       uint64_t nid) const
+void* CSceModuleSystem::getSymbolAddress(std::string const& modName,
+										 std::string const& libName,
+										 uint64_t nid)
 {
 	auto policy = m_policyManager.getSymbolPolicy(modName, libName, nid);
 	void* address = nullptr;
@@ -201,6 +201,26 @@ const void* CSceModuleSystem::getSymbolAddress(std::string const& modName,
 
 	return address;
 }
+
+const void* CSceModuleSystem::getSymbolAddress(std::string const& modName,
+											   std::string const& libName,
+										       uint64_t nid) const
+{
+	auto policy = m_policyManager.getSymbolPolicy(modName, libName, nid);
+	const void* address = nullptr;
+
+	if (policy == Policy::UseBuiltin)
+	{
+		address = m_symbolManager.findBuiltinSymbol(modName, libName, nid);
+	}
+	else
+	{
+		address = m_symbolManager.findNativeSymbol(modName, libName, nid);
+	}
+
+	return address;
+}
+
 
 // TODO: To be done
 void CSceModuleSystem::clearModules()

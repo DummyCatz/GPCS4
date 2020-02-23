@@ -20,6 +20,8 @@ class CSceModuleSystem final : public Singleton<CSceModuleSystem>
 	friend class  Singleton<CSceModuleSystem>;
 
 public:
+	void* getSymbolAddress(std::string const& modName, std::string const& libName, uint64_t nid);
+
 	/**
 	 * @brief Get symbol address according to the corresponding policy
 	 * 
